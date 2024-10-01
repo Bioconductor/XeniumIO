@@ -1,0 +1,3 @@
+#' @import VisiumIO
+#'
+"_PACKAGE"

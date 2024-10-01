@@ -1,0 +1,36 @@
+Package: XeniumIO
+Type: Package
+Title: Import and represent Xenium data from the 10X Xenium Analyzer
+Version: 0.0.0001
+Authors@R: c(
+    person("Marcel", "Ramos", , "marcel.ramos@sph.cuny.edu", c("aut", "cre"),
+        c(ORCID = "0000-0002-3242-0582")
+    ),
+    person("Dario", "Righelli", role = "ctb"),
+    person("Estella", "Dong", role = "ctb")
+    )
+Description: The package allows users to readily import spatial data
+    obtain from the 10X Xenium Analyzer pipeline. Supported formats include
+    'parquet', 'h5', and 'mtx' files. The package mainly represents data
+    as SpatialExperiment objects.
+License: Artistic-2.0
+Depends: TENxIO
+Imports:
+    BiocBaseUtils,
+    methods,
+    S4Vectors,
+    SpatialExperiment,
+    VisiumIO
+Suggests:
+    arrow,
+    BiocStyle,
+    knitr,
+    rmarkdown,
+    tinytest
+biocViews: Software, Infrastructure, DataImport, SingleCell, Spatial
+VignetteBuilder: knitr
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.2
+BugReports: https://github.com/waldronlab/XeniumIO/issues
+URL: https://github.com/waldronlab/XeniumIO

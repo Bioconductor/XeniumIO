@@ -1,0 +1,110 @@
+---
+title: "XeniumIO: Import 10X Genomics Xenium Analyzer Data"
+author: "Marcel Ramos"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+vignette: >
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteIndexEntry{VisiumIO Quick Start Guide}
+  %\VignetteEncoding{UTF-8}
+output:
+  BiocStyle::html_document:
+    number_sections: no
+    toc: yes
+    toc_depth: 4
+Package: XeniumIO
+---
+
+```{r}
+knitr::opts_chunk$set(cache = TRUE)
+```
+
+# Introduction
+
+The `XeniumIO` package provides functions to import 10X Genomics Xenium Analyzer
+data into R. The package is designed to work with the output of the Xenium
+Analyzer, which is a software tool that processes Visium spatial gene expression
+data. The package provides functions to import the output of the Xenium Analyzer
+into R, and to create a `TENxXenium` object that can be used with other
+Bioconductor packages.
+
+# TENxIO Supported Formats
+
+The 10X suite of packages support multiple file formats. The following table
+lists the supported file formats and the corresponding classes that are imported
+into R.
+
+| **Extension**       | **Class**     | **Imported as**      |
+|---------------------|---------------|----------------------|
+| .h5                 | TENxH5        | SingleCellExperiment w/ TENxMatrix |
+| .mtx / .mtx.gz      | TENxMTX       | SummarizedExperiment w/ dgCMatrix |
+| .tar.gz             | TENxFileList  | SingleCellExperiment w/ dgCMatrix |
+| peak_annotation.tsv | TENxPeaks     | GRanges              |
+| fragments.tsv.gz    | TENxFragments | RaggedExperiment     |
+| .tsv / .tsv.gz      | TENxTSV       | tibble               |
+
+# VisiumIO Supported Formats
+
+| **Extension**       | **Class**     | **Imported as**      |
+|---------------------|---------------|----------------------|
+| spatial.tar.gz      | TENxSpatialList | DataFrame list *   |
+| .parquet            | TENxSpatialParquet | tibble *        |
+
+# XeniumIO Supported Formats
+
+| **Extension**       | **Class**     | **Imported as**      |
+|---------------------|---------------|----------------------|
+| .zarr.zip           | TENxZarr      | (TBD)                |
+
+# GitHub Installation
+
+```{r,eval=FALSE}
+BiocManager::install("Bioconductor/XeniumIO")
+```
+
+# Loading package
+
+```{r,include=TRUE,results="hide",message=FALSE,warning=FALSE}
+library(XeniumIO)
+```
+
+# XeniumIO
+
+The `TENxXenium` class contains the `Annotated` class and slots for the
+`resources`, `coordNames`, and `sampleId`. The `resources` slot is a
+`TENxFileList` or `TENxH5` object containing the cell feature matrix. The
+`coordNames` slot is a vector specifying the names of the columns in the spatial
+data containing the spatial coordinates. The `sampleId` slot is a scalar
+specifying the sample identifier.
+
+```{r, eval=FALSE}
+TENxXenium(
+    resources = "path/to/matrix/folder/or/file",
+    xeniumOut = "path/to/xeniumOut/folder",
+    sample_id = "sample01",
+    format = c("mtx", "h5"),
+    spatialCoordNames = c("x_centroid", "y_centroid")
+)
+```
+
+The `format` argument specifies the format of the `resources` object, either
+"mtx" or "h5".
+
+## Example folder structure
+
+Note that the `xeniumOut` unzipped folder must contain the following files:
+
+```
+    *outs
+    ├── cell_feature_matrix.h5
+    ├── cell_feature_matrix.tar.gz
+    |   ├── barcodes.tsv*
+    |   ├── features.tsv*
+    |   └── matrix.mtx*
+    ├── cell_feature_matrix.zarr.zip
+    ├── experiment.xenium
+    ├── cells.csv.gz
+    ├── cells.parquet
+    ├── cells.zarr.zip
+    [...]
+```
+

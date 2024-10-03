@@ -55,3 +55,9 @@
     xf <- list.files(path, pattern = "\\.xenium$", full.names = TRUE)
     FileForFormat(xf)
 }
+
+#' @importClassesFrom VisiumIO TENxSpatialParquet
+.filter_parquet_file <- function(path) {
+    pf <- list.files(path, pattern = "cells\\.parquet$", full.names = TRUE)
+    FileForFormat(pf, prefix = "TENxSpatial", suffix = NULL)
+}

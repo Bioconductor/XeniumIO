@@ -5,6 +5,7 @@
 \alias{TENxXenium-class}
 \alias{.TENxXenium}
 \alias{TENxXenium}
+\alias{import,TENxXenium,ANY,ANY-method}
 \title{A class to represent Xenium output data}
 \usage{
 TENxXenium(
@@ -15,6 +16,8 @@ TENxXenium(
   spatialCoordsNames = c("x_centroid", "y_centroid"),
   ...
 )
+
+\S4method{import}{TENxXenium,ANY,ANY}(con, format, text, ...)
 }
 \arguments{
 \item{resources}{A \link{TENxFileList} object or a file path to the tarball
@@ -33,6 +36,16 @@ names of the columns in the spatial data containing the spatial coordinates.}
 
 \item{...}{In the constructor, additional arguments passed to
 \code{\link[=TENxFileList]{TENxFileList()}}; otherwise, not used.}
+
+\item{con}{The connection from which data is loaded or to which data is
+saved. If this is a \code{character} vector, it is assumed to be a file name and
+a corresponding file connection is created and then closed after exporting
+the object. If it is a \linkS4class{BiocFile} derivative, the data is loaded from
+or saved to the underlying resource. If missing, the function will return
+the output as a character vector, rather than writing to a connection.}
+
+\item{text}{If \code{con} is missing, this can be a character vector directly
+providing the string data to import.}
 }
 \value{
 A \link{SpatialExperiment} object
@@ -42,6 +55,11 @@ This class is a composed class of \link{TENxFileList} which can
 contain a list of \link{TENxFile} objects for the cell-feature matrix. It is
 meant to handle a single Xenium sample from 10X Genomics.
 }
+\section{Functions}{
+\itemize{
+\item \code{import(con = TENxXenium, format = ANY, text = ANY)}: Import Xenium Analyzer data
+
+}}
 \section{Slots}{
 
 \describe{
@@ -52,6 +70,12 @@ feature matrix.}
 of the columns in the spatial data containing the spatial coordinates.}
 
 \item{\code{sampleId}}{\code{character(1)} A scalar specifying the sample identifier.}
+
+\item{\code{colData}}{\code{TENxSpatialParquet} A \link{TENxSpatialParquet} object containing
+the spatial coordinates data.}
+
+\item{\code{metadata}}{\code{XeniumFile} A \link{XeniumFile} object containing the metadata
+information.}
 }}
 
 \seealso{

@@ -17,9 +17,14 @@ License: Artistic-2.0
 Depends: TENxIO
 Imports:
     BiocBaseUtils,
+    BiocGenerics,
+    BiocIO,
+    jsonlite,
     methods,
     S4Vectors,
+    SingleCellExperiment,
     SpatialExperiment,
+    SummarizedExperiment,
     VisiumIO
 Suggests:
     arrow,

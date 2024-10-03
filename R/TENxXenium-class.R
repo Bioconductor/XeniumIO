@@ -88,7 +88,7 @@ TENxXenium <- function(
             resources <- TENxH5(resources, ...)
         else if (isScalarCharacter(resources))
             resources <- TENxFileList(resources, ...)
-        xeniumOut <- dirname(resources)
+        xeniumOut <- dirname(path(resources))
     }
 
     xeniumfile <- .filter_xenium_file(xeniumOut)

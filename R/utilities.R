@@ -20,11 +20,15 @@
 .file_for_format <- function(fdir, format, ...) {
     if (identical(format, "h5")) {
         h5f <- file.path(fdir, paste0(.FEATURE_MATRIX_FILE_STUB, ".", format))
+        if (!file.exists(h5f))
+            stop("The '", basename(h5f), "' file was not found.")
         path <- TENxH5(h5f, ...)
     } else if (identical(format, "mtx")) {
         mtxf <- file.path(
             fdir, paste0(.FEATURE_MATRIX_FILE_STUB, ".tar.gz")
         )
+        if (!file.exists(mtxf))
+            stop("The '", basename(mtxf), "' file was not found.")
         path <- TENxFileList(mtxf)
     }
     path

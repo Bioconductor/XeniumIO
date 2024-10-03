@@ -49,3 +49,9 @@
 
     path
 }
+
+#' @importFrom BiocIO FileForFormat
+.filter_xenium_file <- function(path) {
+    xf <- list.files(path, pattern = "\\.xenium$", full.names = TRUE)
+    FileForFormat(xf)
+}

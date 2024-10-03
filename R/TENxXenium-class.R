@@ -1,3 +1,4 @@
+#' @include XeniumFile.R
 #' @importClassesFrom TENxIO TENxFileList TENxH5
 setClassUnion("TENxFileList_OR_TENxH5", members = c("TENxFileList", "TENxH5"))
 
@@ -24,11 +25,11 @@ setClassUnion("TENxFileList_OR_TENxH5", members = c("TENxFileList", "TENxH5"))
 #' @exportClass TENxXenium
 .TENxXenium <- setClass(
     Class = "TENxXenium",
-    contains = "Annotated",
     slots = c(
         resources = "TENxFileList_OR_TENxH5",
         coordNames = "character",
-        sampleId = "character"
+        sampleId = "character",
+        metadata = "XeniumFile"
     )
 )
 
@@ -60,9 +61,6 @@ TENxXenium <- function(
 ) {
     format <- match.arg(format)
 
-    stopifnot(
-        isScalarCharacter(resources) || is(resources, "TENxFileList_OR_TENxH5")
-    )
     if (!missing(xeniumOut)) {
         if (isScalarCharacter(xeniumOut) && !dir.exists(xeniumOut))
             stop(
@@ -70,7 +68,7 @@ TENxXenium <- function(
                 "\n Verify 'xeniumOut' input directory.",
                 call. = FALSE
             )
-        resources <- .file_for_format(xeniumOut)
+        resources <- .file_for_format(xeniumOut, format)
     } else {
         stopifnot(
             (isScalarCharacter(resources) && file.exists(resources)) ||
@@ -83,11 +81,23 @@ TENxXenium <- function(
             resources <- TENxH5(resources, ...)
         else if (isScalarCharacter(resources))
             resources <- TENxFileList(resources, ...)
+        xeniumOut <- dirname(resources)
     }
+
+    xeniumfile <- .filter_xenium_file(xeniumOut)
 
     .TENxXenium(
         resources = resources,
         coordNames = spatialCoordsNames,
-        sampleId = sample_id
+        sampleId = sample_id,
+        metadata = xeniumfile
     )
 }
+
+#' @importFrom S4Vectors metadata
+setMethod("import", "TENxXenium", function(con, format, text, ...) {
+    sce <- import(con@resources)
+    metadata <- import(con@metadata)
+    metadata(sce) <- metadata
+    sce
+})

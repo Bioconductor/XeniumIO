@@ -34,3 +34,8 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
 BugReports: https://github.com/waldronlab/XeniumIO/issues
 URL: https://github.com/waldronlab/XeniumIO
+Collate: 
+    'XeniumFile.R'
+    'TENxXenium-class.R'
+    'XeniumIO-package.R'
+    'utilities.R'

@@ -75,7 +75,7 @@ TENxXenium <- function(
                 "\n Verify 'xeniumOut' input directory.",
                 call. = FALSE
             )
-        resources <- .file_for_format(xeniumOut, format)
+        resources <- .file_for_format(xeniumOut, format, ...)
     } else {
         stopifnot(
             (isScalarCharacter(resources) && file.exists(resources)) ||

@@ -105,15 +105,12 @@ TENxXenium <- function(
 
 .validTENxXenium <- function(object) {
     isFL <- is(object@resources, "TENxFileList_OR_TENxH5")
-    isSL <- is(object@spatialList, "TENxSpatialList")
     isSP <- is(object@colData, "TENxSpatialParquet")
     isXF <- is(object@metadata, "XeniumFile")
-    if (all(isFL, isSL, isSP, isXF))
+    if (all(isFL, isSP, isXF))
         TRUE
     else if (!isFL)
         "'resources' component is not of TENxFileList or TENxH5 class"
-    else if (!isSL)
-        "'spatialList' component is not of TENxSpatialList class"
     else if (!isSP)
         "'colData' component is not of TENxSpatialParquet class"
     else if (!isXF)

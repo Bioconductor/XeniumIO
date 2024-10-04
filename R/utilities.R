@@ -65,3 +65,16 @@
     pf <- list.files(path, pattern = "cells\\.parquet$", full.names = TRUE)
     FileForFormat(pf, prefix = "TENxSpatial", suffix = NULL)
 }
+
+.boundaries_for_format <- function(fdir, fileext) {
+    fname <- paste0("cells", ".", fileext)
+    cellsf <- file.path(fdir, fname)
+    if (!file.exists(cellsf))
+        stop("The '", basename(cellsf), "' file was not found.")
+    ## override format for csv.gz files
+    format <-
+        if (identical(fileext, "csv.gz")) "csv" else tools::file_ext(cellsf)
+    FileForFormat(
+        cellsf, format = format, prefix = "TENxSpatial", suffix = NULL
+    )
+}

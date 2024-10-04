@@ -13,6 +13,7 @@ TENxXenium(
   xeniumOut,
   sample_id = "sample01",
   format = c("mtx", "h5"),
+  boundaries_format = c("parquet", "csv.gz"),
   spatialCoordsNames = c("x_centroid", "y_centroid"),
   ...
 )
@@ -30,6 +31,9 @@ containing the matrix / assay data resources.}
 \item{format}{The format of the output. If missing and \code{con} is a
 file name, the format is derived from the file extension. This argument is
 unnecessary when \code{con} is a derivative of \linkS4class{BiocFile}.}
+
+\item{boundaries_format}{\code{character(1)} Either "parquet" or "csv.gz" to
+specify the file extension of the boundaries file. Default is "parquet".}
 
 \item{spatialCoordsNames}{\code{character()} A vector of strings specifying the
 names of the columns in the spatial data containing the spatial coordinates.}

@@ -2,6 +2,11 @@
 #' @importClassesFrom TENxIO TENxFileList TENxH5
 setClassUnion("TENxFileList_OR_TENxH5", members = c("TENxFileList", "TENxH5"))
 
+setClassUnion(
+    "TENxSpatialParquet_OR_TENxSpatialCSV",
+    members = c("TENxSpatialParquet", "TENxSpatialCSV")
+)
+
 #' @docType class
 #'
 #' @title A class to represent Xenium output data
@@ -33,6 +38,7 @@ setClassUnion("TENxFileList_OR_TENxH5", members = c("TENxFileList", "TENxH5"))
     Class = "TENxXenium",
     slots = c(
         resources = "TENxFileList_OR_TENxH5",
+        boundaries = "TENxSpatialParquet_OR_TENxSpatialCSV",
         coordNames = "character",
         sampleId = "character",
         colData = "TENxSpatialParquet",
@@ -54,6 +60,9 @@ setClassUnion("TENxFileList_OR_TENxH5", members = c("TENxFileList", "TENxH5"))
 #'
 #' @param xeniumOut `character(1)` The path to the Xenium output directory.
 #'
+#' @param boundaries_format `character(1)` Either "parquet" or "csv.gz" to
+#'   specify the file extension of the boundaries file. Default is "parquet".
+#'
 #' @importFrom methods is new
 #' @importFrom BiocBaseUtils isScalarCharacter
 #'
@@ -63,10 +72,12 @@ TENxXenium <- function(
     xeniumOut,
     sample_id = "sample01",
     format = c("mtx", "h5"),
+    boundaries_format = c("parquet", "csv.gz"),
     spatialCoordsNames = c("x_centroid", "y_centroid"),
     ...
 ) {
     format <- match.arg(format)
+    boundaries_format <- match.arg(boundaries_format)
 
     if (!missing(xeniumOut)) {
         if (isScalarCharacter(xeniumOut) && !dir.exists(xeniumOut))
@@ -93,9 +104,11 @@ TENxXenium <- function(
 
     xeniumfile <- .filter_xenium_file(xeniumOut)
     parqfile <- .filter_parquet_file(xeniumOut)
+    bounds <- .boundaries_for_format(xeniumOut, boundaries_format)
 
     .TENxXenium(
         resources = resources,
+        boundaries = bounds,
         coordNames = spatialCoordsNames,
         sampleId = sample_id,
         colData = parqfile,
@@ -130,13 +143,11 @@ S4Vectors::setValidity2("TENxXenium", .validTENxXenium)
 #' @importFrom SpatialExperiment SpatialExperiment
 #' @importFrom SummarizedExperiment assay assays rowData colData
 #' @importFrom SingleCellExperiment mainExpName altExps
-#' @importFrom S4Vectors metadata<-
 #'
 #' @exportMethod import
 setMethod("import", "TENxXenium", function(con, format, text, ...) {
     sce <- import(con@resources, ...)
     metadata <- import(con@metadata)
-    metadata(sce) <- metadata
     coldata <- import(con@colData)
 
     ## TODO: mainExpName and altExpNames are lost when SCE sent to constructor
@@ -147,6 +158,10 @@ setMethod("import", "TENxXenium", function(con, format, text, ...) {
         altExps = altExps(sce),
         sample_id = con@sampleId,
         colData = as(coldata, "DataFrame"),
-        spatialCoordsNames = con@coordNames
+        spatialCoordsNames = con@coordNames,
+        metadata = list(
+            experiment.xenium = metadata,
+            polygons = import(con@boundaries)
+        )
     )
 })

@@ -69,12 +69,11 @@ library(XeniumIO)
 
 # XeniumIO
 
-The `TENxXenium` class contains the `Annotated` class and slots for the
-`resources`, `coordNames`, and `sampleId`. The `resources` slot is a
-`TENxFileList` or `TENxH5` object containing the cell feature matrix. The
-`coordNames` slot is a vector specifying the names of the columns in the spatial
-data containing the spatial coordinates. The `sampleId` slot is a scalar
-specifying the sample identifier.
+The `TENxXenium` class has a `metadata` slot for the `experiment.xenium` file.
+The `resources` slot is a `TENxFileList` or `TENxH5` object containing the cell
+feature matrix. The `coordNames` slot is a vector specifying the names of the
+columns in the spatial data containing the spatial coordinates. The `sampleId`
+slot is a scalar specifying the sample identifier.
 
 ```{r, eval=FALSE}
 TENxXenium(
@@ -82,12 +81,15 @@ TENxXenium(
     xeniumOut = "path/to/xeniumOut/folder",
     sample_id = "sample01",
     format = c("mtx", "h5"),
-    spatialCoordNames = c("x_centroid", "y_centroid")
+    boundaries_format = c("parquet", "csv.gz"),
+    spatialCoordsNames = c("x_centroid", "y_centroid"),
+    ...
 )
 ```
 
 The `format` argument specifies the format of the `resources` object, either
-"mtx" or "h5".
+"mtx" or "h5". The `boundaries_format` allows the user to choose whether to
+read in the data using the `parquet` or `csv.gz` format.
 
 ## Example folder structure
 
@@ -107,4 +109,7 @@ Note that the `xeniumOut` unzipped folder must contain the following files:
     ├── cells.zarr.zip
     [...]
 ```
+
+Note that currently the `zarr` format is not supported as the infrastructure is
+currently under development.
 

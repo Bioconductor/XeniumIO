@@ -14,7 +14,7 @@ output:
 Package: XeniumIO
 ---
 
-```{r}
+```{r,include=FALSE}
 knitr::opts_chunk$set(cache = TRUE)
 ```
 
@@ -27,7 +27,9 @@ data. The package provides functions to import the output of the Xenium Analyzer
 into R, and to create a `TENxXenium` object that can be used with other
 Bioconductor packages.
 
-# TENxIO Supported Formats
+# Supported Formats
+
+## TENxIO
 
 The 10X suite of packages support multiple file formats. The following table
 lists the supported file formats and the corresponding classes that are imported
@@ -42,14 +44,14 @@ into R.
 | fragments.tsv.gz    | TENxFragments | RaggedExperiment     |
 | .tsv / .tsv.gz      | TENxTSV       | tibble               |
 
-# VisiumIO Supported Formats
+## VisiumIO
 
 | **Extension**       | **Class**     | **Imported as**      |
 |---------------------|---------------|----------------------|
 | spatial.tar.gz      | TENxSpatialList | DataFrame list *   |
 | .parquet            | TENxSpatialParquet | tibble *        |
 
-# XeniumIO Supported Formats
+## XeniumIO
 
 | **Extension**       | **Class**     | **Imported as**      |
 |---------------------|---------------|----------------------|
@@ -91,7 +93,7 @@ The `format` argument specifies the format of the `resources` object, either
 "mtx" or "h5". The `boundaries_format` allows the user to choose whether to
 read in the data using the `parquet` or `csv.gz` format.
 
-## Example folder structure
+# Example Folder Structure
 
 Note that the `xeniumOut` unzipped folder must contain the following files:
 
@@ -113,3 +115,60 @@ Note that the `xeniumOut` unzipped folder must contain the following files:
 Note that currently the `zarr` format is not supported as the infrastructure is
 currently under development.
 
+# Importing an Example Xenium Dataset
+
+The following code snippet demonstrates how to import a Xenium Analyzer output
+into R. The `TENxXenium` object is created by specifying the path to the
+`xeniumOut` folder. The `TENxXenium` object is then imported into R using the
+`import` method for the `TENxXenium` class.
+
+```{r, eval=FALSE}
+download.file(
+    url = paste0(
+        "https://cf.10xgenomics.com/samples/xenium/3.0.0/",
+        "Xenium_Prime_MultiCellSeg_Mouse_Ileum_tiny/",
+        "Xenium_Prime_MultiCellSeg_Mouse_Ileum_tiny_outs.zip"
+    ),
+    destfile =
+        "~/data/Xenium_Prime_MultiCellSeg_Mouse_Ileum_tiny_outs.zip"
+)
+unzip(
+    zipfile =
+        "~/data/Xenium_Prime_MultiCellSeg_Mouse_Ileum_tiny_outs.zip",
+    exdir = "~/data/Xenium_Prime_MultiCellSeg_Mouse_Ileum_tiny_outs",
+    overwrite = FALSE
+)
+TENxXenium(
+   xeniumOut = "~/data/Xenium_Prime_MultiCellSeg_Mouse_Ileum_tiny_outs"
+) |> import()
+#' class: SpatialExperiment 
+#' dim: 8 36 
+#' metadata(2): experiment.xenium polygons
+#' assays(1): counts
+#' rownames(8): DeprecatedCodeword_0321 DeprecatedCodeword_6781 ...
+#'   DeprecatedCodeword_16059 DeprecatedCodeword_18533
+#' rowData names(3): ID Symbol Type
+#' colnames(36): aaamobki-1 aaclkaod-1 ... olbjkpjc-1 omjmdimk-1
+#' colData names(13): cell_id transcript_counts ... segmentation_method
+#'   sample_id
+#' reducedDimNames(0):
+#' mainExpName: Deprecated Codeword
+#' altExpNames(5): Gene Expression Genomic Control Negative Control
+#'   Codeword Negative Control Probe Unassigned Codeword
+#' spatialCoords names(2) : x_centroid y_centroid
+#' imgData names(0):
+```
+
+The dataset was obtained from the 10X Genomics website under the
+[X0A v3.0 section](https://www.10xgenomics.com/support/software/xenium-onboard-analysis/latest/resources/xenium-example-data#test-data-v3-0)
+and is a subset of the Xenium Prime 5K Mouse Pan Tissue & Pathways Panel.
+The link to the data can be seen as the `url` input above and shown below for
+completeness.
+
+<https://cf.10xgenomics.com/samples/xenium/3.0.0/Xenium_Prime_MultiCellSeg_Mouse_Ileum_tiny/Xenium_Prime_MultiCellSeg_Mouse_Ileum_tiny_outs.zip>
+
+# Session Info
+
+```{r}
+sessionInfo()
+```

@@ -66,6 +66,27 @@ setClassUnion(
 #' @importFrom methods is new
 #' @importFrom BiocBaseUtils isScalarCharacter
 #'
+#' @examples
+#' if (interactive()) {
+#'     download.file(
+#'         url = paste0(
+#'             "https://cf.10xgenomics.com/samples/xenium/3.0.0/",
+#'             "Xenium_Prime_MultiCellSeg_Mouse_Ileum_tiny/",
+#'             "Xenium_Prime_MultiCellSeg_Mouse_Ileum_tiny_outs.zip"
+#'         ),
+#'         destfile =
+#'             "~/data/Xenium_Prime_MultiCellSeg_Mouse_Ileum_tiny_outs.zip"
+#'     )
+#'     unzip(
+#'         zipfile =
+#'             "~/data/Xenium_Prime_MultiCellSeg_Mouse_Ileum_tiny_outs.zip",
+#'         exdir = "~/data/Xenium_Prime_MultiCellSeg_Mouse_Ileum_tiny_outs",
+#'         overwrite = FALSE
+#'     )
+#'     TENxXenium(
+#'        xeniumOut = "~/data/Xenium_Prime_MultiCellSeg_Mouse_Ileum_tiny_outs"
+#'     ) |> import()
+#' }
 #' @export
 TENxXenium <- function(
     resources,

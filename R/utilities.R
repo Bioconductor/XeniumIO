@@ -18,20 +18,13 @@
 }
 
 .file_for_format <- function(fdir, format, ...) {
-    if (identical(format, "h5")) {
-        h5f <- file.path(fdir, paste0(.FEATURE_MATRIX_FILE_STUB, ".", format))
-        if (!file.exists(h5f))
-            stop("The '", basename(h5f), "' file was not found.")
-        path <- TENxH5(h5f, ...)
-    } else if (identical(format, "mtx")) {
-        mtxf <- file.path(
-            fdir, paste0(.FEATURE_MATRIX_FILE_STUB, ".tar.gz")
-        )
-        if (!file.exists(mtxf))
-            stop("The '", basename(mtxf), "' file was not found.")
-        path <- TENxFileList(mtxf)
-    }
-    path
+    exten <- switch(format, h5 = ".h5", mtx = ".tar.gz", zarr = ".zarr.zip")
+    ffile <- file.path(fdir, paste0(.FEATURE_MATRIX_FILE_STUB, exten))
+    if (!file.exists(ffile))
+        stop("The '", basename(ffile), "' file was not found.")
+    converter <-
+        switch(format, h5 = TENxH5, mtx = TENxFileList, zarr = TENxZarr)
+    converter(h5f, ...)
 }
 
 .filter_h5_files <- function(path, format) {

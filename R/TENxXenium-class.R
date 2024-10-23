@@ -92,7 +92,7 @@ TENxXenium <- function(
     resources,
     xeniumOut,
     sample_id = "sample01",
-    format = c("mtx", "h5"),
+    format = c("mtx", "h5", "zarr"),
     boundaries_format = c("parquet", "csv.gz"),
     spatialCoordsNames = c("x_centroid", "y_centroid"),
     ...

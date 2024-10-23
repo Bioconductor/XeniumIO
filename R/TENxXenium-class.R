@@ -18,6 +18,9 @@ setClassUnion(
 #' @slot resources A [TENxFileList] or [TENxH5] object containing the cell
 #'   feature matrix.
 #'
+#' @slot boundaries Either a [TENxSpatialParquet] or [TENxSpatialCSV] object
+#'   containing the spatial boundaries data.
+#'
 #' @slot coordNames `character()` A vector specifying the names
 #'   of the columns in the spatial data containing the spatial coordinates.
 #'

@@ -70,6 +70,9 @@ meant to handle a single Xenium sample from 10X Genomics.
 \item{\code{resources}}{A \link{TENxFileList} or \link{TENxH5} object containing the cell
 feature matrix.}
 
+\item{\code{boundaries}}{Either a \link{TENxSpatialParquet} or \link{TENxSpatialCSV} object
+containing the spatial boundaries data.}
+
 \item{\code{coordNames}}{\code{character()} A vector specifying the names
 of the columns in the spatial data containing the spatial coordinates.}
 

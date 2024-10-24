@@ -36,6 +36,9 @@ setClassUnion(
 #'
 #' @seealso <https://www.10xgenomics.com/support/software/xenium-onboard-analysis/latest/analysis/xoa-output-understanding-outputs>
 #'
+#' @examples
+#' showClass("TENxXenium")
+#'
 #' @exportClass TENxXenium
 .TENxXenium <- setClass(
     Class = "TENxXenium",

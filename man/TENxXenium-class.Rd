@@ -86,6 +86,8 @@ information.}
 }}
 
 \examples{
+showClass("TENxXenium")
+
 if (interactive()) {
     download.file(
         url = paste0(

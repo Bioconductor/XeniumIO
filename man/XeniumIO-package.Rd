@@ -6,7 +6,7 @@
 \alias{XeniumIO-package}
 \title{XeniumIO: Import and represent Xenium data from the 10X Xenium Analyzer}
 \description{
-The package allows users to readily import spatial data obtain from the 10X Xenium Analyzer pipeline. Supported formats include 'parquet', 'h5', and 'mtx' files. The package mainly represents data as SpatialExperiment objects.
+The package allows users to readily import spatial data obtained from the 10X Xenium Analyzer pipeline. Supported formats include 'parquet', 'h5', and 'mtx' files. The package mainly represents data as SpatialExperiment objects.
 }
 \seealso{
 Useful links:

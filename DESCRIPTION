@@ -10,7 +10,7 @@ Authors@R: c(
     person("Estella", "Dong", role = "ctb")
     )
 Description: The package allows users to readily import spatial data
-    obtain from the 10X Xenium Analyzer pipeline. Supported formats include
+    obtained from the 10X Xenium Analyzer pipeline. Supported formats include
     'parquet', 'h5', and 'mtx' files. The package mainly represents data
     as SpatialExperiment objects.
 License: Artistic-2.0
@@ -28,6 +28,7 @@ Imports:
     VisiumIO
 Suggests:
     arrow,
+    BiocFileCache,
     BiocStyle,
     knitr,
     rmarkdown,

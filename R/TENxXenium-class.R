@@ -73,26 +73,23 @@ setClassUnion(
 #' @importFrom BiocBaseUtils isScalarCharacter
 #'
 #' @examples
-#' if (interactive()) {
-#'     download.file(
-#'         url = paste0(
-#'             "https://cf.10xgenomics.com/samples/xenium/3.0.0/",
-#'             "Xenium_Prime_MultiCellSeg_Mouse_Ileum_tiny/",
-#'             "Xenium_Prime_MultiCellSeg_Mouse_Ileum_tiny_outs.zip"
-#'         ),
-#'         destfile =
-#'             "~/data/Xenium_Prime_MultiCellSeg_Mouse_Ileum_tiny_outs.zip"
+#' destfile <- XeniumIO:::.cache_url_file(
+#'     url = paste0(
+#'         "https://cf.10xgenomics.com/samples/xenium/3.0.0/",
+#'         "Xenium_Prime_MultiCellSeg_Mouse_Ileum_tiny/",
+#'         "Xenium_Prime_MultiCellSeg_Mouse_Ileum_tiny_outs.zip"
 #'     )
-#'     unzip(
-#'         zipfile =
-#'             "~/data/Xenium_Prime_MultiCellSeg_Mouse_Ileum_tiny_outs.zip",
-#'         exdir = "~/data/Xenium_Prime_MultiCellSeg_Mouse_Ileum_tiny_outs",
-#'         overwrite = FALSE
-#'     )
-#'     TENxXenium(
-#'        xeniumOut = "~/data/Xenium_Prime_MultiCellSeg_Mouse_Ileum_tiny_outs"
-#'     ) |> import()
-#' }
+#' )
+#' outfile <- file.path(
+#'     tempdir(), "Xenium_Prime_MultiCellSeg_Mouse_Ileum_tiny_outs"
+#' )
+#' if (!dir.exists(outfile))
+#'     dir.create(outfile, recursive = TRUE)
+#' unzip(
+#'     zipfile = destfile, exdir = outfile, overwrite = FALSE
+#' )
+#' TENxXenium(xeniumOut = outfile) |>
+#'     import()
 #' @export
 TENxXenium <- function(
     resources,

@@ -42,7 +42,7 @@ expect_silent(
     TENxXenium(xeniumOut = outfile, boundaries_format = "csv.gz") |> import()
 )
 
-cellsnames <- TENxSpatialCSV(file.path(outfile, "cells.csv.gz")) |>
+cellsnames <- VisiumIO::TENxSpatialCSV(file.path(outfile, "cells.csv.gz")) |>
     import() |>
     names() |>
     tail(-2L)

@@ -28,6 +28,7 @@ Imports:
     VisiumIO
 Suggests:
     arrow,
+    BiocFileCache,
     BiocStyle,
     knitr,
     rmarkdown,

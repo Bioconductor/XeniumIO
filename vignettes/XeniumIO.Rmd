@@ -145,41 +145,24 @@ into R. The `TENxXenium` object is created by specifying the path to the
 `xeniumOut` folder. The `TENxXenium` object is then imported into R using the
 `import` method for the `TENxXenium` class.
 
-```{r, eval=FALSE}
-download.file(
+```{r}
+destfile <- XeniumIO:::.cache_url_file(
     url = paste0(
         "https://cf.10xgenomics.com/samples/xenium/3.0.0/",
         "Xenium_Prime_MultiCellSeg_Mouse_Ileum_tiny/",
         "Xenium_Prime_MultiCellSeg_Mouse_Ileum_tiny_outs.zip"
-    ),
-    destfile =
-        "~/data/Xenium_Prime_MultiCellSeg_Mouse_Ileum_tiny_outs.zip"
+    )
 )
+outfile <- file.path(
+    tempdir(), "Xenium_Prime_MultiCellSeg_Mouse_Ileum_tiny_outs"
+)
+if (!dir.exists(outfile))
+    dir.create(outfile, recursive = TRUE)
 unzip(
-    zipfile =
-        "~/data/Xenium_Prime_MultiCellSeg_Mouse_Ileum_tiny_outs.zip",
-    exdir = "~/data/Xenium_Prime_MultiCellSeg_Mouse_Ileum_tiny_outs",
-    overwrite = FALSE
+    zipfile = destfile, exdir = outfile, overwrite = FALSE
 )
-TENxXenium(
-   xeniumOut = "~/data/Xenium_Prime_MultiCellSeg_Mouse_Ileum_tiny_outs"
-) |> import()
-#' class: SpatialExperiment 
-#' dim: 8 36 
-#' metadata(2): experiment.xenium polygons
-#' assays(1): counts
-#' rownames(8): DeprecatedCodeword_0321 DeprecatedCodeword_6781 ...
-#'   DeprecatedCodeword_16059 DeprecatedCodeword_18533
-#' rowData names(3): ID Symbol Type
-#' colnames(36): aaamobki-1 aaclkaod-1 ... olbjkpjc-1 omjmdimk-1
-#' colData names(13): cell_id transcript_counts ... segmentation_method
-#'   sample_id
-#' reducedDimNames(0):
-#' mainExpName: Deprecated Codeword
-#' altExpNames(5): Gene Expression Genomic Control Negative Control
-#'   Codeword Negative Control Probe Unassigned Codeword
-#' spatialCoords names(2) : x_centroid y_centroid
-#' imgData names(0):
+TENxXenium(xeniumOut = outfile) |>
+    import()
 ```
 
 The dataset was obtained from the 10X Genomics website under the

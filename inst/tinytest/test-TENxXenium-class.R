@@ -37,3 +37,25 @@ expect_identical(
     colData(seh5)[["sample_id"]] |> unique(),
     "sample01"
 )
+
+expect_silent(
+    TENxXenium(xeniumOut = outfile, boundaries_format = "csv.gz") |> import()
+)
+
+cellsnames <- TENxSpatialCSV(file.path(outfile, "cells.csv.gz")) |>
+    import() |>
+    names() |>
+    tail(-2L)
+
+colDataNames <- colData(
+    TENxXenium(
+        xeniumOut = outfile, boundaries_format = "csv.gz"
+    ) |> import()
+) |>
+    names()
+
+expect_true(
+    all(
+        cellsnames %in% colDataNames
+    )
+)

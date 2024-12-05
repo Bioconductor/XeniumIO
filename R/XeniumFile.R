@@ -9,6 +9,9 @@
 #' @return A [XeniumFile] object
 #'
 #' @importClassesFrom TENxIO TENxFile
+#' @examples
+#' showClass("XeniumFile")
+#'
 #' @exportClass XeniumFile
 .XeniumFile <- setClass("XeniumFile",  contains = "TENxFile")
 

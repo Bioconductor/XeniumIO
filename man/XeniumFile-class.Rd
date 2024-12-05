@@ -45,3 +45,7 @@ the \code{jsonlite} package to import the metadata.
 \item \code{import(con = XeniumFile, format = ANY, text = ANY)}: Import Xenium metadata
 
 }}
+\examples{
+showClass("XeniumFile")
+
+}

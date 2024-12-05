@@ -52,12 +52,14 @@ the output as a character vector, rather than writing to a connection.}
 providing the string data to import.}
 }
 \value{
-A \link{SpatialExperiment} object
+A \link[SpatialExperiment:SpatialExperiment]{SpatialExperiment}
+object
 }
 \description{
-This class is a composed class of \link{TENxFileList} which can
-contain a list of \link{TENxFile} objects for the cell-feature matrix. It is
-meant to handle a single Xenium sample from 10X Genomics.
+This class is a composed class of
+\link[TENxIO:TENxFileList-class]{TENxFileList} which can contain a list of
+\link[TENxIO:TENxFile-class]{TENxFile} objects for the cell-feature matrix. It
+is meant to handle a single Xenium sample from 10X Genomics.
 }
 \section{Functions}{
 \itemize{
@@ -67,22 +69,25 @@ meant to handle a single Xenium sample from 10X Genomics.
 \section{Slots}{
 
 \describe{
-\item{\code{resources}}{A \link{TENxFileList} or \link{TENxH5} object containing the cell
-feature matrix.}
+\item{\code{resources}}{A \link[TENxIO:TENxFileList-class]{TENxFileList} or
+\link[TENxIO:TENxH5]{TENxH5} object containing the cell feature matrix.}
 
-\item{\code{boundaries}}{Either a \link{TENxSpatialParquet} or \link{TENxSpatialCSV} object
-containing the spatial boundaries data.}
+\item{\code{boundaries}}{Either a
+\link[VisiumIO:TENxSpatialParquet-class]{TENxSpatialParquet} or
+\link[VisiumIO:TENxSpatialCSV-class]{TENxSpatialCSV} object containing the
+spatial boundaries data.}
 
 \item{\code{coordNames}}{\code{character()} A vector specifying the names
 of the columns in the spatial data containing the spatial coordinates.}
 
 \item{\code{sampleId}}{\code{character(1)} A scalar specifying the sample identifier.}
 
-\item{\code{colData}}{\code{TENxSpatialParquet} A \link{TENxSpatialParquet} object containing
+\item{\code{colData}}{\code{TENxSpatialParquet} A
+\link[VisiumIO:TENxSpatialParquet-class]{TENxSpatialParquet} object containing
 the spatial coordinates data.}
 
-\item{\code{metadata}}{\code{XeniumFile} A \link{XeniumFile} object containing the metadata
-information.}
+\item{\code{metadata}}{\code{XeniumFile} A \link[=XeniumFile-class]{XeniumFile} object
+containing the metadata information.}
 }}
 
 \examples{

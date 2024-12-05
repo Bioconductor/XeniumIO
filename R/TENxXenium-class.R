@@ -11,28 +11,33 @@ setClassUnion(
 #'
 #' @title A class to represent Xenium output data
 #'
-#' @description This class is a composed class of [TENxFileList] which can
-#'   contain a list of [TENxFile] objects for the cell-feature matrix. It is
-#'   meant to handle a single Xenium sample from 10X Genomics.
+#' @description This class is a composed class of
+#'   [TENxFileList][TENxIO::TENxFileList-class] which can contain a list of
+#'   [TENxFile][TENxIO::TENxFile-class] objects for the cell-feature matrix. It
+#'   is meant to handle a single Xenium sample from 10X Genomics.
 #'
-#' @slot resources A [TENxFileList] or [TENxH5] object containing the cell
-#'   feature matrix.
+#' @slot resources A [TENxFileList][TENxIO::TENxFileList-class] or
+#'   [TENxH5][TENxIO::TENxH5] object containing the cell feature matrix.
 #'
-#' @slot boundaries Either a [TENxSpatialParquet] or [TENxSpatialCSV] object
-#'   containing the spatial boundaries data.
+#' @slot boundaries Either a
+#'   [TENxSpatialParquet][VisiumIO::TENxSpatialParquet-class] or
+#'   [TENxSpatialCSV][VisiumIO::TENxSpatialCSV-class] object containing the
+#'   spatial boundaries data.
 #'
 #' @slot coordNames `character()` A vector specifying the names
 #'   of the columns in the spatial data containing the spatial coordinates.
 #'
 #' @slot sampleId `character(1)` A scalar specifying the sample identifier.
 #'
-#' @slot colData `TENxSpatialParquet` A [TENxSpatialParquet] object containing
-#'  the spatial coordinates data.
+#' @slot colData `TENxSpatialParquet` A
+#'   [TENxSpatialParquet][VisiumIO::TENxSpatialParquet-class] object containing
+#'   the spatial coordinates data.
 #'
-#' @slot metadata `XeniumFile` A [XeniumFile] object containing the metadata
-#'  information.
+#' @slot metadata `XeniumFile` A [XeniumFile][XeniumIO::XeniumFile-class] object
+#'   containing the metadata information.
 #'
-#' @return A [SpatialExperiment] object
+#' @return A [SpatialExperiment][SpatialExperiment::SpatialExperiment-class]
+#'   object
 #'
 #' @seealso <https://www.10xgenomics.com/support/software/xenium-onboard-analysis/latest/analysis/xoa-output-understanding-outputs>
 #'

@@ -154,7 +154,8 @@ TENxXenium <- function(
         "'metadata' component is not of XeniumFile class"
 }
 
-S4Vectors::setValidity2("TENxXenium", .validTENxXenium)
+#' @importFrom S4Vectors setValidity2
+setValidity2("TENxXenium", .validTENxXenium)
 
 # import TENxXenium method ------------------------------------------------
 

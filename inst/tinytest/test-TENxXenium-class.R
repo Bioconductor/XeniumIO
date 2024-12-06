@@ -1,19 +1,17 @@
-destfile <- XeniumIO:::.cache_url_file(
-    url = paste0(
-        "https://cf.10xgenomics.com/samples/xenium/3.0.0/",
-        "Xenium_Prime_MultiCellSeg_Mouse_Ileum_tiny/",
-        "Xenium_Prime_MultiCellSeg_Mouse_Ileum_tiny_outs.zip"
-    )
+zipfile <- paste0(
+    "https://mghp.osn.xsede.org/bir190004-bucket01/BiocXenDemo/",
+    "Xenium_Prime_MultiCellSeg_Mouse_Ileum_tiny_outs.zip"
 )
-outfile <- file.path(
-    tempdir(), "Xenium_Prime_MultiCellSeg_Mouse_Ileum_tiny_outs"
+destfile <- XeniumIO:::.cache_url_file(zipfile)
+outfold <- file.path(
+    tempdir(), tools::file_path_sans_ext(basename(zipfile))
 )
-if (!dir.exists(outfile))
-    dir.create(outfile, recursive = TRUE)
+if (!dir.exists(outfold))
+    dir.create(outfold, recursive = TRUE)
 unzip(
-    zipfile = destfile, exdir = outfile, overwrite = FALSE
+    zipfile = destfile, exdir = outfold, overwrite = FALSE
 )
-semtx <- TENxXenium(xeniumOut = outfile) |>
+semtx <- TENxXenium(xeniumOut = outfold) |>
     import()
 
 expect_true(
@@ -26,7 +24,7 @@ expect_identical(
 )
 
 expect_warning(
-    seh5 <- TENxXenium(xeniumOut = outfile, format = "h5") |> import()
+    seh5 <- TENxXenium(xeniumOut = outfold, format = "h5") |> import()
 )
 
 expect_true(
@@ -39,17 +37,17 @@ expect_identical(
 )
 
 expect_silent(
-    TENxXenium(xeniumOut = outfile, boundaries_format = "csv.gz") |> import()
+    TENxXenium(xeniumOut = outfold, boundaries_format = "csv.gz") |> import()
 )
 
-cellsnames <- VisiumIO::TENxSpatialCSV(file.path(outfile, "cells.csv.gz")) |>
+cellsnames <- VisiumIO::TENxSpatialCSV(file.path(outfold, "cells.csv.gz")) |>
     import() |>
     names() |>
     tail(-2L)
 
 colDataNames <- colData(
     TENxXenium(
-        xeniumOut = outfile, boundaries_format = "csv.gz"
+        xeniumOut = outfold, boundaries_format = "csv.gz"
     ) |> import()
 ) |>
     names()
